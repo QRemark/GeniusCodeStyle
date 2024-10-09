@@ -34,16 +34,19 @@ public class TargetMover : MonoBehaviour
 
     private void MoveToCurrentTarget()
     {
-        Transform point = _targetPoints[_currentPointIndex];
+        if (_targetPoints != null)
+        {
+            Transform point = _targetPoints[_currentPointIndex];
 
-        transform.position = Vector3.MoveTowards(transform.position, point.position,
-            _moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, point.position,
+                _moveSpeed * Time.deltaTime);
 
-        if (transform.position == point.position)
-            ChangePoint();
+            if (transform.position == point.position)
+                ChangeDirection();
+        }
     }
 
-    private void ChangePoint()
+    private void ChangeDirection()
     {
         _currentPointIndex++;
 
