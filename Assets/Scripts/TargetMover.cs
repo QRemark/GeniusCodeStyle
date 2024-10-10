@@ -11,7 +11,7 @@ public class TargetMover : MonoBehaviour
 
     private int _currentPointIndex = 0;
 
-    private void Start()
+    private void Awake()
     {
         InitializeTargetPoints();
     }
@@ -48,12 +48,9 @@ public class TargetMover : MonoBehaviour
 
     private void ChangeDirection()
     {
-        _currentPointIndex++;
+        _currentPointIndex = (++_currentPointIndex) % _targetPoints.Length;
 
-        if (_currentPointIndex >= _targetPoints.Length)
-            _currentPointIndex = 0;
-
-        Vector3 direction = _targetPoints[_currentPointIndex].transform.position - 
+        Vector3 direction = _targetPoints[_currentPointIndex].transform.position -
             transform.position;
 
         transform.forward = direction;
