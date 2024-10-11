@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Transform))]
 public class TargetMover : MonoBehaviour
 {
     [SerializeField] private Transform _points;
@@ -25,9 +24,10 @@ public class TargetMover : MonoBehaviour
     {
         if (_points != null)
         {
-            _targetPoints = new Transform[_points.childCount];
+            int pointCount = _points.childCount;
+            _targetPoints = new Transform[pointCount];
 
-            for (int i = 0; i < _points.childCount; i++)
+            for (int i = 0; i < pointCount; i++)
                 _targetPoints[i] = _points.GetChild(i);
         }
     }
@@ -48,7 +48,7 @@ public class TargetMover : MonoBehaviour
 
     private void ChangeDirection()
     {
-        _currentPointIndex = (++_currentPointIndex) % _targetPoints.Length;
+        _currentPointIndex = ++_currentPointIndex % _targetPoints.Length;
 
         Vector3 direction = _targetPoints[_currentPointIndex].transform.position -
             transform.position;

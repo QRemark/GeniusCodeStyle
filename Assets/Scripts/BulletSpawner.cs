@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class BulletSpawner : MonoBehaviour
 {
     [SerializeField] private Bullet _bulletPrefab;
@@ -22,7 +21,7 @@ public class BulletSpawner : MonoBehaviour
 
     private IEnumerator Shoot()
     {
-        while (true)
+        while (enabled)
         {
             GenerateBullet();
             yield return _waitRecoil;
@@ -33,13 +32,9 @@ public class BulletSpawner : MonoBehaviour
     {
         Vector3 targetDirection = (_target.position - transform.position).normalized;
 
-        Bullet newBullet = Instantiate(_bulletPrefab, transform.position +
-            targetDirection, Quaternion.identity);
+        Rigidbody bulletRigidbody = Instantiate(_bulletPrefab, transform.position + targetDirection, Quaternion.identity).GetComponent<Rigidbody>();
 
-        if (newBullet.TryGetComponent(out Rigidbody bulletRb))
-        {
-            bulletRb.transform.up = targetDirection;
-            bulletRb.velocity = targetDirection * _bulletSpeed;
-        }
+        bulletRigidbody.transform.up = targetDirection;
+        bulletRigidbody.velocity = targetDirection * _bulletSpeed;
     }
 }
